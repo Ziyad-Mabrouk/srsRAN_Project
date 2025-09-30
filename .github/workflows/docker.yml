@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - 'docker/telegraf/**'
-    #   - 'docker/grafana/**'
   workflow_dispatch:
 
 env:
@@ -19,12 +16,19 @@ jobs:
     strategy:
       matrix:
         include:
+          # Telegraf
           - NAME: telegraf
             DOCKERFILE: ./docker/telegraf/Dockerfile
             CONTEXT: ./docker/telegraf
-          - NAME: grafana
-            DOCKERFILE: ./docker/grafana/Dockerfile
-            CONTEXT: ./docker/grafana
+
+          # srsRAN project (release_avx512)
+          - NAME: srsran-gnb
+            DOCKERFILE: ./docker/Dockerfile
+            CONTEXT: ./
+            MARCH: x86-64-v4
+            PLATFORM: amd64
+            UHD_VERSION: "4.7.0.0"
+            DPDK_VERSION: "24.11.2"
 
     steps:
       - name: Checkout code
@@ -38,7 +42,10 @@ jobs:
           docker build \
             --tag ${{ matrix.NAME }}:${{ env.TAG }} \
             -f ${{ matrix.DOCKERFILE }} \
-            ${{ matrix.CONTEXT }}
+            ${{ matrix.CONTEXT }} \
+            --build-arg MARCH="${{ matrix.MARCH }}" \
+            --build-arg UHD_VERSION="${{ matrix.UHD_VERSION }}" \
+            --build-arg DPDK_VERSION="${{ matrix.DPDK_VERSION }}"
 
       - name: Tag & Push to GHCR
         run: |
