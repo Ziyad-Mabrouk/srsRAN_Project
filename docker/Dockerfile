@@ -47,6 +47,7 @@ ADD . /src
 
 # Install srsRAN build dependencies
 RUN /src/docker/scripts/install_dependencies.sh build && \
+    /src/docker/scripts/install_dependencies.sh extra && \
     /src/docker/scripts/install_uhd_dependencies.sh build && \
     /src/docker/scripts/install_dpdk_dependencies.sh build && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git clang
