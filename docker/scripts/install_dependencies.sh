@@ -48,7 +48,7 @@ main() {
         fi
         if [[ "$mode" == "all" || "$mode" == "extra" ]]; then
             DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
-                libzmq3-dev libuhd-dev uhd-host libboost-program-options-dev libdpdk-dev libelf-dev libdwarf-dev libdw-dev
+                libzmq3-dev libzmq5-dev libuhd-dev uhd-host libboost-program-options-dev libdpdk-dev libelf-dev libdwarf-dev libdw-dev
             
             ARCH=$(uname -m)
             if [[ "$ARCH" == "x86_64" ]]; then
