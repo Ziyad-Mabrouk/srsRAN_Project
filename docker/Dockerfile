@@ -112,6 +112,7 @@ ENV PATH=$PATH:/opt/uhd/${UHD_VERSION}/bin/:/opt/dpdk/${DPDK_VERSION}/bin/
 
 # Install srsran and lib runtime dependencies
 RUN /usr/local/etc/install_srsran_dependencies.sh run && \
+    /usr/local/etc/install_srsran_dependencies.sh all && \
     /usr/local/etc/install_uhd_dependencies.sh run && \
     /usr/local/etc/install_dpdk_dependencies.sh run && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl ntpdate && \
